@@ -1,0 +1,25 @@
+.container-input {
+  width: 50%;
+  margin: 5px 0;
+}
+
+.container-input input {
+  box-sizing: content-box;
+  width: 60%;
+  padding: 10px 20px;
+  border: 1px solid #b7b7b7;
+  border-radius: 3px;
+  font: normal 0.6em/normal "Comic Sans MS", cursive, sans-serif;
+  color: rgba(255,255,255,1);
+  -o-text-overflow: clip;
+  text-overflow: clip;
+  background: rgba(0,0,0,1);
+  box-shadow: 0 15px 3px -3px rgba(0,0,0,1) ;
+  text-shadow: 1px 1px 0 rgba(255,255,255,0.66) ;
+}
+
+.container-input input:focus {
+  border: 2px solid #b7b7b7;
+  color: rgba(94,100,102,1);
+  background: rgba(0,0,0,0.37);
+}
