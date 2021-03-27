@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Input from '../../components/Input';
 
+import fetchToken from '../../services/apiTrivia';
+import logo from '../../trivia.png';
 import './style.css';
 
 const INITIAL_STATE = {
@@ -15,6 +18,19 @@ class Login extends Component {
     this.state = INITIAL_STATE;
 
     this.handleOnChange = this.handleOnChange.bind(this);
+    this.handleClickButton = this.handleClickButton.bind(this);
+  }
+
+  componentDidMount() {
+    this.validateInputs();
+  }
+
+  async handleClickButton() {
+    const token = await fetchToken();
+    const { history } = this.props;
+
+    localStorage.setItem('token', token);
+    history.push('/game');
   }
 
   handleOnChange({ target: { name, value } }) {
@@ -36,7 +52,8 @@ class Login extends Component {
     const { inputEmail, inputPassword } = this.state;
 
     return (
-      <div className="container-login">
+      <div className="container-login container">
+        <img src={ logo } className="img-fluid App-logo" alt="logo" />
         <Input
           dataTestId="input-player-name"
           placeholder="Digite seu email..."
@@ -59,7 +76,7 @@ class Login extends Component {
           className="btn btn-light btn-sm"
           data-testid="btn-play"
           type="button"
-          disabled
+          onClick={ this.handleClickButton }
         >
           Jogar
         </button>
@@ -67,5 +84,9 @@ class Login extends Component {
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.shape(Object).isRequired,
+};
 
 export default Login;
