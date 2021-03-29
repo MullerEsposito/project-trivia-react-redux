@@ -1,0 +1,16 @@
+.container-quiz {
+  font-size: 0.7em;
+}
+
+.container-quiz button {
+  background: rgba(255, 255, 255, 0);
+  border-radius: 10px;
+  margin: 0 5px;
+  color: white;
+  transition: background 1s;
+}
+
+.container-quiz button:hover {
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.267);
+}
