@@ -29,8 +29,14 @@ class Login extends Component {
   async handleClickButton() {
     const token = await fetchToken();
     const { history } = this.props;
+    const { inputName: name, inputEmail: gravatarEmail } = this.state;
+
+    const player = {
+      name, assertions: 0, score: 0, gravatarEmail,
+    };
 
     localStorage.setItem('token', token);
+    localStorage.setItem('player', JSON.stringify(player));
     history.push('/game');
   }
 
@@ -50,25 +56,24 @@ class Login extends Component {
   }
 
   render() {
-    const { inputEmail, inputPassword } = this.state;
+    const { inputEmail, inputName } = this.state;
 
     return (
       <div className="container-login container">
         <img src={ logo } className="img-fluid App-logo" alt="logo" />
         <Input
           dataTestId="input-player-name"
-          placeholder="Digite seu email..."
-          type="email"
-          name="inputEmail"
-          value={ inputEmail }
+          placeholder="Digite seu nome..."
+          name="inputName"
+          value={ inputName }
           onChange={ this.handleOnChange }
         />
         <Input
           dataTestId="input-gravatar-email"
-          placeholder="Digite sua senha..."
-          type="password"
-          name="inputPassword"
-          value={ inputPassword }
+          placeholder="Digite seu email..."
+          type="email"
+          name="inputEmail"
+          value={ inputEmail }
           onChange={ this.handleOnChange }
         />
         <button
