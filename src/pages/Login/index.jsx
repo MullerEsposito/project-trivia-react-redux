@@ -31,12 +31,12 @@ class Login extends Component {
     const { history } = this.props;
     const { inputName: name, inputEmail: gravatarEmail } = this.state;
 
-    const player = {
+    const player = { player: {
       name, assertions: 0, score: 0, gravatarEmail,
-    };
+    } };
 
     localStorage.setItem('token', token);
-    localStorage.setItem('player', JSON.stringify(player));
+    localStorage.setItem('state', JSON.stringify(player));
     history.push('/game');
   }
 
