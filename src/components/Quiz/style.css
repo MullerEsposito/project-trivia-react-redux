@@ -14,3 +14,11 @@
   cursor: pointer;
   background: rgba(255, 255, 255, 0.267);
 }
+
+.container-quiz .right {
+  border: 3px solid rgb(6, 240, 15);
+}
+
+.container-quiz .wrong {
+  border: 3px solid rgb(255, 0, 0);
+}
