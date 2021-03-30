@@ -18,6 +18,7 @@ class Quiz extends Component {
 
     clearInterval(timer);
     this.verifiesAnswer(answer, right);
+    this.renderNextButton();
 
     buttons.forEach((button) => {
       button.classList.add(button.innerText === right ? 'right' : 'wrong');
@@ -38,6 +39,18 @@ class Quiz extends Component {
 
       localStorage.setItem('state', JSON.stringify({ player }));
     }
+  }
+
+  renderNextButton() {
+    const containerQuiz = document.getElementsByClassName('container-quiz')[0];
+    const nextButton = document.createElement('button');
+
+    nextButton.innerText = 'Próxima';
+    nextButton.setAttribute('data-testid', 'btn-next');
+    nextButton.setAttribute('type', 'button');
+    nextButton.classList.add('btn', 'btn-success', 'btn-sm');
+
+    containerQuiz.appendChild(nextButton);
   }
 
   renderOptions() {
@@ -66,7 +79,11 @@ class Quiz extends Component {
     );
     options.sort(() => Math.random() - fiftyPercent);
 
-    return options;
+    return (
+      <div className="container-options">
+        { options }
+      </div>
+    );
   }
 
   render() {

@@ -3,6 +3,10 @@
 }
 
 .container-quiz button {
+  margin: 10px 0;
+}
+
+.container-quiz .container-options button {
   background: rgba(255, 255, 255, 0);
   border-radius: 10px;
   margin: 0 5px;
@@ -10,7 +14,7 @@
   transition: background 1s;
 }
 
-.container-quiz button:hover {
+.container-quiz .container-options button:hover {
   cursor: pointer;
   background: rgba(255, 255, 255, 0.267);
 }
