@@ -5,7 +5,7 @@ import md5 from 'crypto-js/md5';
 import { setTimerCreator } from '../../redux/actions';
 
 import Quiz from '../../components/Quiz';
-import quiz from '../../mocks';
+// import quiz from '../../mocks';
 import './style.css';
 
 const INITIAL_STATE = {
@@ -15,6 +15,7 @@ const INITIAL_STATE = {
     gravatarEmail: '',
     assertions: '',
   },
+  quiz: [],
 };
 
 class Game extends Component {
@@ -26,9 +27,11 @@ class Game extends Component {
 
   componentDidMount() {
     const { setTimer } = this.props;
+    const timer = this.createTimer((time) => this.timer(time));
 
     this.getPlayer();
-    setTimer(this.startTimer());
+    timer.start();
+    setTimer(timer);
   }
 
   getPlayer() {
@@ -36,26 +39,51 @@ class Game extends Component {
     this.setState({ player });
   }
 
-  startTimer() {
+  createTimer(createCallback) {
+    const time = 30;
     const periodTime = 1000;
+    let timer = setInterval(createCallback(time), periodTime);
 
-    const timer = setInterval(() => {
+    return ({
+      start() {
+        const callback = createCallback(time);
+        this.stop();
+        timer = setInterval(() => callback(timer), periodTime);
+        return this;
+      },
+
+      stop() {
+        clearInterval(timer);
+        timer = null;
+        return this;
+      },
+
+      restart() {
+        this.stop().start();
+      },
+    });
+  }
+
+  timer(time) {
+    return (timer) => {
       const elementTimer = document.getElementById('timer');
       const buttons = document.querySelectorAll('button');
-      const time = elementTimer.innerText;
+
+      elementTimer.innerText = time;
 
       if (time <= 1) {
         buttons.forEach((button) => { button.disabled = true; });
         clearInterval(timer);
       }
-      elementTimer.innerText -= 1;
-    }, periodTime);
-    return timer;
+      time -= 1;
+
+      elementTimer.innerText = time;
+    };
   }
 
   render() {
     const { player: { gravatarEmail, name, score } } = this.state;
-    const { timer } = this.props;
+    const { timer, history, quiz } = this.props;
     const img = `https://www.gravatar.com/avatar/${md5(gravatarEmail).toString()}`;
     return (
       <div className="container-game">
@@ -69,7 +97,12 @@ class Game extends Component {
           <p id="timer">30</p>
         </header>
         <main>
-          <Quiz quiz={ quiz } timer={ timer } score={ score } />
+          <Quiz
+            history={ history }
+            quiz={ quiz }
+            timer={ timer }
+            score={ score }
+          />
         </main>
       </div>
     );
@@ -78,11 +111,14 @@ class Game extends Component {
 
 Game.propTypes = {
   setTimer: PropTypes.func.isRequired,
-  timer: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  timer: PropTypes.shape(Object).isRequired,
+  history: PropTypes.shape(Object).isRequired,
+  quiz: PropTypes.arrayOf(PropTypes.shape(Object)).isRequired,
 };
 
 const mapStateToProps = ({ gameReducer }) => ({
   timer: gameReducer.timer,
+  quiz: gameReducer.quiz,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -3,13 +3,12 @@
 }
 
 .container-quiz button {
-  margin: 10px 0;
+  margin: 10px 5px;
 }
 
 .container-quiz .container-options button {
   background: rgba(255, 255, 255, 0);
   border-radius: 10px;
-  margin: 0 5px;
   color: white;
   transition: background 1s;
 }
